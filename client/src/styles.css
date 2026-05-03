@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Brand */
+  --primary: #7c4dff;
+  --on-primary: #f2efff;
+
+  --secondary: #b388ff;
+  --on-secondary: #f2efff;
+
+  /* Surfaces */
+  --background: #09070f;
+  --on-background: #e2def1;
+
+  --surface: #0f0c17;
+  --on-surface: #f2efff;
+
+  /* Subtle elevation / variation */
+  --surface-variant: #1a1626;
+  --outline: #2a2440;
+
+  /* Feedback */
+  --error: #ff5370;
+  --on-error: #f2efff;
+
+  /* Fonts */
+  --font-main: 'Host Grotesk', sans-serif;
+
+  font: 16px var(--font-main);
+  background-color: var(--background);
+  color: var(--on-surface);
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: var(--on-surface);
+}
