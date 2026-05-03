@@ -17,4 +17,6 @@ $effect(() => {
   oninput={(e) => {
     const inputValue = (e.target as HTMLInputElement).value;
     raw = inputValue.replace(/\D+/g, '');
-  }} />
+  }}
+  onfocus={e => (e.target as HTMLInputElement).select()}
+/>

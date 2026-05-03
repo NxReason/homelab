@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
 import Settings from './Settings.svelte';
 
 const INITIAL_WORK_TIME = 60;
@@ -20,11 +21,10 @@ function togglePhase() {
 }
 
 // Timer
-// let timeLeft = $state(INITIAL_WORK_TIME * 60);
-let timeLeft = $state(2);
-let timeView = $derived(getTimeView(timeLeft))
-let intervalId: ReturnType<typeof setInterval> | undefined;
+let timeLeft = $state(INITIAL_WORK_TIME * 60);
+let timeView = $derived(getTimeView(timeLeft));
 let isRunning = $state(false);
+let intervalId: ReturnType<typeof setInterval> | undefined;
 
 function start() {
   intervalId = setInterval(() => {
@@ -60,16 +60,7 @@ function resetTimeLeft() {
     timeLeft = getWorkTimeLeft();
   else
     timeLeft = getRestTimeLeft();
-}
-
-// update time-left only if timer isn't running
-$effect(() => {
-  if (isRunning) return;
-  // timeLeft = phase === 'Work'
-  //   ? getWorkTimeLeft()
-  //   : getRestTimeLeft();
-  resetTimeLeft();
-})
+};
 
 function getWorkTimeLeft(): number {
   return (workTimer ?? INITIAL_WORK_TIME) * 60;
@@ -77,6 +68,16 @@ function getWorkTimeLeft(): number {
 function getRestTimeLeft(): number {
   return (restTimer ?? INITIAL_REST_TIME) * 60;
 }
+
+$effect(() => {
+  const running = untrack(() => isRunning);
+  if (running) return;
+
+  if (phase === 'Work')
+    timeLeft = getWorkTimeLeft();
+  else
+    timeLeft = getRestTimeLeft();
+})
 </script>
 
 
@@ -86,10 +87,12 @@ function getRestTimeLeft(): number {
   <Settings bind:workTimer={workTimer} bind:restTimer={restTimer} />
 
   <div class="timer">
-    <p>{phase}ing <button onclick={togglePhaseHandler}>-></button></p>
-    <p>{timeView}</p>
-    <button onclick={resetHandler}>Reset</button>
-    <button onclick={toggleTimer}>{isRunning ? 'Stop' : 'Start'}</button>
+    <h3>{phase}ing <button onclick={togglePhaseHandler}>-></button></h3>
+    <p class="timer-value">{timeView}</p>
+    <div>
+      <button onclick={resetHandler}>Reset</button>
+      <button onclick={toggleTimer}>{isRunning ? 'Stop' : 'Start'}</button>
+    </div>
   </div>
 </div>
 
@@ -99,10 +102,22 @@ function getRestTimeLeft(): number {
   display: grid;
   grid-template-rows: 60px;
   grid-template-columns: 30% 70%;
-  gap: 16px;
+  row-gap: 16px;
 }
 .page-title {
   grid-column: 1 / 3;
   padding: 16px;
+}
+.timer {
+  display: grid;
+  grid-template-rows: auto 80px auto;
+  gap: 16px;
+  justify-items: center;
+
+  border-left: 1px solid var(--on-surface);
+}
+.timer-value {
+  font-size: 3rem;
+  padding-top: .5rem;
 }
 </style>
