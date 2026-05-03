@@ -1,6 +1,13 @@
 <script lang="ts">
 	import '../styles.css'
 	import favicon from '$lib/assets/favicon.svg';
+	import { page } from '$app/state';
+
+	const isActive = (path: string) =>
+		page.url.pathname === path
+
+	const isActiveGroup = (path: string) =>
+		page.url.pathname.startsWith(path)
 
 	let { children } = $props();
 </script>
@@ -14,10 +21,13 @@
 	<nav>
 		<ul>
 			<li>
-				<a href="/design">D</a>
+				<a href="/" class:active={isActive('/')}>H</a>
 			</li>
 			<li>
-				<a href="/pomodoro">P</a>
+				<a href="/design" class:active={isActive('/design')}>D</a>
+			</li>
+			<li>
+				<a href="/pomodoro" class:active={isActive('/pomodoro')}>P</a>
 			</li>
 		</ul>
 	</nav>
@@ -34,9 +44,12 @@
 	grid-template-columns: 100px 1fr 100px;
 	gap: 16px;
 
+	min-height: 100dvh;
 	padding: 32px;
 }
 nav {
+	align-self: start;
+
 	display: flex;
 	justify-content: center;
 }
@@ -62,7 +75,17 @@ nav ul a {
 
 	transition: background-color .15s ease;
 }
-nav ul a:hover {
+nav ul a:hover:not(.active) {
 	background-color: var(--surface-variant);
+}
+.active {
+	background-color: var(--primary);
+}
+
+.page {
+	background-color: var(--surface);
+
+	border-radius: 16px;
+	box-shadow: 2px 2px 4px var(--outline);
 }
 </style>

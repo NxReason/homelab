@@ -43,3 +43,30 @@ a {
   text-decoration: none;
   color: var(--on-surface);
 }
+
+button {
+  font: inherit;
+  background-color: var(--primary);
+  color: var(--on-primary);
+
+  padding: 4px 8px;
+  border: none;
+
+  transition: all 0.15s ease;
+}
+button:hover {
+  cursor: pointer;
+  background-color: var(--secondary);
+}
+
+input {
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+
+  padding: 4px 8px;
+  width: 100%;
+
+  border: none;
+  border-bottom: 1px solid var(--on-surface);
+}
