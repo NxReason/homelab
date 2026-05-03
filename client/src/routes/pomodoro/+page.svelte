@@ -106,7 +106,7 @@ $effect(() => {
 }
 .page-title {
   grid-column: 1 / 3;
-  padding: 16px;
+  padding-top: 8px;
 }
 .timer {
   display: grid;

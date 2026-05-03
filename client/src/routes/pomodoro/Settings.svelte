@@ -25,7 +25,7 @@ section {
   flex-direction: column;
   gap: 16px;
 
-  padding: 0 16px;
+  padding-right: 16px;
 }
 label {
   display: flex;
