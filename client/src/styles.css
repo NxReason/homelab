@@ -22,6 +22,7 @@
   /* Subtle elevation / variation */
   --surface-variant: #1a1626;
   --outline: #2a2440;
+  --on-disabled: #c2c0cc;
 
   /* Feedback */
   --error: #ff5370;
@@ -69,4 +70,12 @@ input {
 
   border: none;
   border-bottom: 1px solid var(--on-surface);
+}
+
+.icon {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
