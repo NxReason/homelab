@@ -60,7 +60,7 @@ button:hover {
   background-color: var(--secondary);
 }
 
-input {
+input[type='text'] {
   background-color: transparent;
   color: inherit;
   font: inherit;
