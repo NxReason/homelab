@@ -3,6 +3,8 @@
   import AppBar from './AppBar.svelte';
   import Button from './Button.svelte';
   import Checkbox from './Checkbox.svelte';
+  import TextField from './TextField.svelte';
+  import Radio from './Radio.svelte';
 
   let CurrentComponent: Component | null = $state(null);
 
@@ -17,6 +19,8 @@
     {@render option('App Bar', AppBar)}
     {@render option('Button', Button)}
     {@render option('Checkbox', Checkbox)}
+    {@render option('Radio', Radio)}
+    {@render option('Text Field', TextField)}
   </ul>
 
   <div class="display">
