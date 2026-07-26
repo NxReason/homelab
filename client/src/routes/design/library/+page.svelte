@@ -5,6 +5,7 @@
   import Checkbox from './Checkbox.svelte';
   import TextField from './TextField.svelte';
   import Radio from './Radio.svelte';
+  import Select from './Select.svelte';
 
   let CurrentComponent: Component | null = $state(null);
 
@@ -21,6 +22,7 @@
     {@render option('Checkbox', Checkbox)}
     {@render option('Radio', Radio)}
     {@render option('Text Field', TextField)}
+    {@render option('Select', Select)}
   </ul>
 
   <div class="display">
@@ -33,47 +35,47 @@
 </div>
 
 {#snippet option(title: string, cmp: any)}
-  <li class={[ 'cmp-option', CurrentComponent === cmp && 'active' ]}>
+  <li class={['cmp-option', CurrentComponent === cmp && 'active']}>
     <button onclick={() => showComponent(cmp)}>{title}</button>
   </li>
 {/snippet}
 
 <style>
-.container {
-  display: grid;
-  grid-template-rows: 64px 1fr;
-  grid-template-columns: 160px 1fr;
-  grid-template-areas: 
-    'title title'
-    'sidebar display'
-}
-/* TITLE */
-h1 {
-  grid-area: title;
-}
+  .container {
+    display: grid;
+    grid-template-rows: 64px 1fr;
+    grid-template-columns: 160px 1fr;
+    grid-template-areas:
+      'title title'
+      'sidebar display';
+  }
+  /* TITLE */
+  h1 {
+    grid-area: title;
+  }
 
-/* LIST */
-.cmp-list {
-  display: flex;
-  flex-direction: column;
+  /* LIST */
+  .cmp-list {
+    display: flex;
+    flex-direction: column;
 
-  border-right: 1px solid var(--outline);
-}
-.cmp-option button {
-  display: block;
-  width: 100%;
-  padding: 8px 16px;
+    border-right: 1px solid var(--outline);
+  }
+  .cmp-option button {
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
 
-  text-align: left;
+    text-align: left;
 
-  background-color: transparent;
-}
-.cmp-option.active {
-  background-color: var(--surface-variant)
-}
+    background-color: transparent;
+  }
+  .cmp-option.active {
+    background-color: var(--surface-variant);
+  }
 
-/* DISPLAY */
-.display {
-  padding: 8px 16px;
-}
+  /* DISPLAY */
+  .display {
+    padding: 8px 16px;
+  }
 </style>
