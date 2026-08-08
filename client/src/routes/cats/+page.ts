@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 
-async function loadCats() {
+async function loadCats(fetch: any) {
   const res = await fetch('http://server:3000/cats');
   if (res.ok) {
     return await res.json();
@@ -8,8 +8,8 @@ async function loadCats() {
   return [];
 }
 
-export const load: PageLoad = async ({ params }) => {
+export const load: PageLoad = async ({ params, fetch }) => {
   return {
-    cats: await loadCats(),
+    cats: await loadCats(fetch),
   };
 };

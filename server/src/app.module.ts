@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Cat } from './cats/cat.entity';
+import { PalletesModule } from './palletes/palletes.module';
+import { Pallete } from './palletes/pallete.entity';
 
 const TypeOrm = TypeOrmModule.forRoot({
   type: 'postgres',
@@ -12,13 +12,11 @@ const TypeOrm = TypeOrmModule.forRoot({
   username: 'nxr',
   password: 'secret',
   database: 'homelab',
-  entities: [Cat],
+  entities: [Cat, Pallete],
   synchronize: true,
 });
 
 @Module({
-  imports: [CatsModule, TypeOrm],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [CatsModule, PalletesModule, TypeOrm],
 })
 export class AppModule {}
