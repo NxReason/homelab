@@ -3,16 +3,26 @@
     value?: string | null;
     title?: string;
     sub?: string;
+    oninput?: () => void;
+    selectOnFocus?: boolean;
   };
 
   let {
     value = $bindable<string | null>(),
     title = '',
     sub = '',
+    oninput = () => {},
+    selectOnFocus = true,
   }: Props = $props();
 
   let style = $derived(
     title ? `padding: 28px 12px 12px` : `padding: 20px 12px`,
+  );
+
+  let onfocus = $derived(
+    selectOnFocus
+      ? (e: Event) => (e.target as HTMLInputElement).select()
+      : () => {},
   );
 </script>
 
@@ -23,7 +33,8 @@
     bind:value
     placeholder=""
     {style}
-    onfocus={e => (e.target as HTMLInputElement).select()}
+    {oninput}
+    {onfocus}
   />
   <span class="title">{title}</span>
   {#if sub}

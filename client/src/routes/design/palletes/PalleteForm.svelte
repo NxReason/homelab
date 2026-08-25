@@ -30,7 +30,7 @@
 <form onsubmit={handleSubmit}>
   <TextInput bind:value={name} title="Pallete name" />
 
-  <button type="button" onclick={addColor}>Add color</button>
+  <button type="button" class="btn-filled" onclick={addColor}>Add color</button>
 
   <ul class="color-list">
     {#each colors as color, i}
@@ -49,7 +49,7 @@
     {/each}
   </ul>
 
-  <button>Save</button>
+  <button class="btn-filled">Save</button>
 </form>
 
 <style>

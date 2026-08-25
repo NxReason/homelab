@@ -47,7 +47,7 @@ a {
 
 button {
   font: inherit;
-  background-color: var(--primary);
+  background-color: transparent;
   color: var(--on-primary);
 
   padding: 4px 8px;
@@ -58,6 +58,13 @@ button {
 button:hover {
   cursor: pointer;
   background-color: var(--secondary);
+}
+
+.btn {
+  border: 2px solid var(--primary);
+}
+.btn-filled {
+  background-color: var(--primary);
 }
 
 input[type='text'] {
