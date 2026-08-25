@@ -1,6 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-interface PalleteColor {
+export interface PalleteColor {
+  id: string;
   name: string;
   hex: string;
 }

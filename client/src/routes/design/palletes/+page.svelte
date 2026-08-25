@@ -14,7 +14,7 @@
   }
 </script>
 
-<h1>{data.title}</h1>
+<h1 class="page-title">{data.title}</h1>
 
 <a href="/design/palletes/new" class="new-pallete-btn">New</a>
 
@@ -25,15 +25,19 @@
 </ul>
 
 <style>
+  .page-title {
+    margin-bottom: 8px;
+  }
   .new-pallete-btn {
     display: inline-block;
     padding: 8px 16px;
-    background-color: var(--primary);
+    margin-bottom: 8px;
+    border: 2px solid var(--primary);
 
     transition: background-color 0.15s ease;
   }
   .new-pallete-btn:hover {
-    background-color: var(--secondary);
+    background-color: var(--primary);
     cursor: pointer;
   }
 </style>

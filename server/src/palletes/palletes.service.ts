@@ -23,14 +23,15 @@ export class PalletesService {
     return this.palleteRepo.save(createPalleteDto);
   }
 
-  async update(updatePalleteDto: UpdatePalleteDto): Promise<Pallete | null> {
+  async update(dto: UpdatePalleteDto): Promise<Pallete | null> {
     const updPallete = await this.palleteRepo.findOneBy({
-      id: updatePalleteDto.id,
+      id: dto.id,
     });
 
     if (!updPallete) return null;
 
-    updPallete.name = updatePalleteDto.name;
+    updPallete.name = dto.name;
+    updPallete.colors = dto.colors;
 
     return this.palleteRepo.save(updPallete);
   }

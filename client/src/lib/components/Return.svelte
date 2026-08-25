@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     justify-self: start;
+    align-self: start;
     padding: 0 8px 4px 0;
     border-bottom: 2px solid var(--primary);
   }

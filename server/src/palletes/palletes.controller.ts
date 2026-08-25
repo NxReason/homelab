@@ -38,10 +38,7 @@ export class PalletesController {
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: number,
-    updatePalleteDto: UpdatePalleteDto,
-  ): Promise<Pallete> {
+  async update(@Body() updatePalleteDto: UpdatePalleteDto): Promise<Pallete> {
     const pallete = await this.palletesService.update(updatePalleteDto);
     if (!pallete) {
       throw new NotFoundException('Pallete not found');
