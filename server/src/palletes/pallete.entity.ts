@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export interface PalleteColor {
   id: string;
@@ -19,4 +24,7 @@ export class Pallete {
     default: () => "'[]'",
   })
   colors!: PalleteColor[];
+
+  @CreateDateColumn()
+  createdAt!: Date;
 }

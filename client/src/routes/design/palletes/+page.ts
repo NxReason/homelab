@@ -8,8 +8,13 @@ export const load: PageLoad = async ({ fetch }) => {
     error(404, 'Palletes not found');
   }
 
+  let palletes: IPallete[] = await res.json();
+  palletes.map(p => {
+    p.createdAt = new Date(p.createdAt);
+  });
+
   return {
     title: 'Palletes library',
-    palletes: (await res.json()) as IPallete[],
+    palletes: palletes,
   };
 };

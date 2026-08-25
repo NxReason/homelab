@@ -12,7 +12,11 @@ export class PalletesService {
   ) {}
 
   readAll(): Promise<Pallete[]> {
-    return this.palleteRepo.find();
+    return this.palleteRepo.find({
+      order: {
+        createdAt: 'DESC',
+      },
+    });
   }
 
   readOne(id: number): Promise<Pallete | null> {
