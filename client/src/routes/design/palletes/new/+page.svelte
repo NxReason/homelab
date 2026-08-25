@@ -25,11 +25,11 @@
     colors.push({
       id: crypto.randomUUID(),
       name: '',
-      hex: '',
+      hex: '333333',
     });
   }
   function removeColor(id: string) {
-    colors = colors.filter(c => c.id != id);
+    colors = colors.filter(c => c.id !== id);
   }
 </script>
 
@@ -43,7 +43,14 @@
       <li class="color-item">
         <TextInput bind:value={color.name} title="Color #{i + 1}" />
         <ColorPicker bind:hex={color.hex} />
-        <button onclick={() => removeColor(color.id)}>D</button>
+        <button
+          type="button"
+          class="remove-color-btn"
+          onclick={() => removeColor(color.id)}
+          aria-label="Remove color"
+        >
+          <i class="icon icon-close"></i>
+        </button>
       </li>
     {/each}
   </ul>
@@ -66,7 +73,16 @@
 
   .color-item {
     display: grid;
-    grid-template-columns: 60% 1fr 1fr;
+    grid-template-columns: 60% 1fr 60px;
     gap: 8px;
+  }
+
+  .remove-color-btn {
+    display: grid;
+    place-items: center;
+  }
+
+  .icon-close {
+    background-image: url('/icons/close.svg');
   }
 </style>

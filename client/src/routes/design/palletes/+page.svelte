@@ -9,8 +9,7 @@
   let palletes = $state<IPallete[]>([...data.palletes]);
 
   async function handleDelete(id: number) {
-    const deleted = await deletePallete(id);
-    console.log(deleted);
+    await deletePallete(id);
     palletes = palletes.filter(p => p.id != id);
   }
 </script>

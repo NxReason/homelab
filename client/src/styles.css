@@ -79,3 +79,13 @@ input[type='text'] {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.icon-back {
+  background-image: url('/icons/back.svg');
+}
+.icon-edit {
+  background-image: url('/icons/edit.svg');
+}
+.icon-delete {
+  background-image: url('/icons/delete.svg');
+}

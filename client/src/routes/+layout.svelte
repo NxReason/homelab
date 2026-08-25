@@ -2,7 +2,6 @@
   import '../styles.css';
   import favicon from '$lib/assets/favicon.svg';
   import type { MenuItem } from './MenuItem';
-  import { pseudoRandomBytes } from 'node:crypto';
 
   let { children, data } = $props();
 </script>
@@ -78,7 +77,7 @@
     display: grid;
     place-items: center;
 
-    border: 1px solid var(--on-background);
+    border: 1px solid var(--primary);
     border-bottom: none;
 
     width: 100%;
@@ -87,7 +86,7 @@
     transition: background-color 0.15s ease;
   }
   .main-menu > li:last-of-type > .main-link {
-    border-bottom: 1px solid var(--on-background);
+    border-bottom: 1px solid var(--primary);
   }
   .main-link:hover:not(.active) {
     background-color: var(--surface-variant);
@@ -105,6 +104,7 @@
     box-shadow: 2px 2px 2px var(--surface-variant);
 
     position: absolute;
+    z-index: 1000;
     top: 0;
     left: 40px;
   }
