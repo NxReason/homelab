@@ -1,129 +1,159 @@
 <script lang="ts">
-	import '../styles.css'
-	import favicon from '$lib/assets/favicon.svg';
-	import { page } from '$app/state';
+  import '../styles.css';
+  import favicon from '$lib/assets/favicon.svg';
+  import type { MenuItem } from './MenuItem';
+  import { pseudoRandomBytes } from 'node:crypto';
 
-	const isActive = (path: string) =>
-		page.url.pathname === path
-
-	const isActiveGroup = (path: string) =>
-		page.url.pathname.startsWith(path)
-
-	let { children } = $props();
+  let { children, data } = $props();
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+  <link rel="icon" href={favicon} />
 </svelte:head>
 
 <div class="container">
+  <nav>
+    <ul class="main-menu">
+      {#each data.pages as page}
+        <li class={{ 'has-submenu': page.hasSubs() }}>
+          <a
+            href={page.path}
+            class="main-link"
+            class:active={page.isActive}
+            title={page.name}
+          >
+            <i class={['icon', `icon-${page.name.toLowerCase()}`]}></i>
+          </a>
+          {@render submenu(page.subItems)}
+        </li>
+      {/each}
+    </ul>
+  </nav>
 
-	<nav>
-		<ul class="main-menu">
-			<li>
-				<a href="/" class:active={isActive('/')}>H</a>
-			</li>
-			<li class="has-submenu">
-				<a href="/design" class:active={isActiveGroup('/design')}>D</a>
-				<ul class="sub-menu">
-					<li>
-						<a href="/design/palletes" class:active={isActive("/design/palletes")}>Palletes</a>
-					</li>
-					<li>
-						<a href="/design/library" class:active={isActive("/design/library")}>Library</a>
-					</li>
-				</ul>
-			</li>
-			<li>
-				<a href="/pomodoro" class:active={isActive('/pomodoro')}>P</a>
-			</li>
-		</ul>
-	</nav>
-
-	<main class="page">
-		{@render children()}
-	</main>
-
+  <main class="page">
+    {@render children()}
+  </main>
 </div>
 
+{#snippet submenu(subpages: MenuItem[])}
+  {#if subpages.length !== 0}
+    <ul class="sub-menu">
+      {#each subpages as sp}
+        <li class="sub-item">
+          <a href={sp.path} class="sub-link" class:active={sp.isActive}>
+            <i class={['icon', `icon-${sp.name.toLowerCase()}`]}></i>
+            {sp.name}
+          </a>
+        </li>
+      {/each}
+    </ul>
+  {/if}
+{/snippet}
+
 <style>
-.container {
-	display: grid;
-	grid-template-columns: 100px 1fr 100px;
-	gap: 16px;
+  .container {
+    display: grid;
+    grid-template-columns: 100px 1fr 100px;
+    gap: 16px;
 
-	min-height: 100dvh;
-	padding: 32px;
-}
-nav {
-	align-self: start;
+    min-height: 100dvh;
+    padding: 32px;
+  }
+  nav {
+    align-self: start;
 
-	display: flex;
-	justify-content: center;
-}
-.main-menu {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	align-self: center;
-}
-.main-menu > li {
-	width: 40px;
-	height: 40px;
-}
-.main-menu > li > a {
-	display: grid;
-	place-items: center;
+    display: flex;
+    justify-content: center;
+  }
+  .main-menu {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
+  .main-menu > li {
+    width: 42px;
+    height: 42px;
+  }
+  .main-link {
+    display: grid;
+    place-items: center;
 
-	border: 2px solid var(--on-background);
-	border-radius: 12px;
+    border: 1px solid var(--on-background);
+    border-bottom: none;
 
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 
-	transition: background-color .15s ease;
-}
-.main-menu a:hover:not(.active) {
-	background-color: var(--surface-variant);
-}
+    transition: background-color 0.15s ease;
+  }
+  .main-menu > li:last-of-type > .main-link {
+    border-bottom: 1px solid var(--on-background);
+  }
+  .main-link:hover:not(.active) {
+    background-color: var(--surface-variant);
+  }
 
-.has-submenu {
-	position: relative;
-}
-.sub-menu {
-	display: none;
-	flex-direction: column;
+  .has-submenu {
+    position: relative;
+  }
+  .sub-menu {
+    display: none;
+    flex-direction: column;
+    padding-left: 8px;
 
-	background-color: var(--surface);
-	box-shadow: 2px 2px 2px var(--surface-variant);
+    background-color: transparent;
+    box-shadow: 2px 2px 2px var(--surface-variant);
 
-	position: absolute;
-	top: 0;
-	left: 40px;
-}
-.has-submenu:hover .sub-menu {
-	display: flex;
-}
-.sub-menu li {
-	display: block;
-}
-.sub-menu li a {
-	display: block;
-	width: 100%;
-	height: 100%;
-	padding: 8px 16px;
-}
+    position: absolute;
+    top: 0;
+    left: 40px;
+  }
+  .has-submenu:hover .sub-menu {
+    display: flex;
+  }
+  .sub-link {
+    display: flex;
+    padding: 8px;
+    gap: 4px;
+    align-items: center;
 
-.active {
-	background-color: var(--primary);
-}
+    background-color: var(--surface);
+  }
+  .sub-link:hover:not(.active) {
+    background-color: var(--surface-variant);
+  }
+  .sub-link .icon {
+    width: 24px;
+    height: 24px;
+  }
 
-.page {
-	background-color: var(--surface);
+  .active {
+    background-color: var(--primary);
+  }
 
-	border-radius: 16px;
-	box-shadow: 2px 2px 4px var(--outline);
+  .page {
+    background-color: var(--surface);
 
-	padding: 16px;
-}
+    border-radius: 16px;
+    box-shadow: 2px 2px 4px var(--outline);
+
+    padding: 16px;
+  }
+
+  /* icons */
+  .icon-home {
+    background-image: url('/icons/home.svg');
+  }
+  .icon-design {
+    background-image: url('/icons/design_services.svg');
+  }
+  .icon-palletes {
+    background-image: url('/icons/color_fill.svg');
+  }
+  .icon-library {
+    background-image: url('/icons/slide_library.svg');
+  }
+  .icon-pomodoro {
+    background-image: url('/icons/timer_10.svg');
+  }
 </style>
