@@ -19,4 +19,8 @@ export class MenuItem {
   public hasSubs(): boolean {
     return this.subItems.length > 0;
   }
+
+  public getIconName(): string {
+    return this.name.toLowerCase().replace(' ', '-');
+  }
 }

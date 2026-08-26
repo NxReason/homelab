@@ -21,7 +21,7 @@
             class:active={page.isActive}
             title={page.name}
           >
-            <i class={['icon', `icon-${page.name.toLowerCase()}`]}></i>
+            <i class={['icon', `icon-${page.getIconName()}`]}></i>
           </a>
           {@render submenu(page.subItems)}
         </li>
@@ -40,7 +40,7 @@
       {#each subpages as sp}
         <li class="sub-item">
           <a href={sp.path} class="sub-link" class:active={sp.isActive}>
-            <i class={['icon', `icon-${sp.name.toLowerCase()}`]}></i>
+            <i class={['icon', `icon-${sp.getIconName()}`]}></i>
             {sp.name}
           </a>
         </li>
@@ -155,5 +155,8 @@
   }
   .icon-pomodoro {
     background-image: url('/icons/timer_10.svg');
+  }
+  .icon-csv-reader {
+    background-image: url('/icons/csv.svg');
   }
 </style>
