@@ -8,5 +8,5 @@ export interface IPallete {
   id?: number;
   name: string;
   colors: IPalleteColor[];
-  createdAt?: Date;
+  createdAt: Date;
 }

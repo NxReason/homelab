@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Cat } from './cats/cat.entity';
 import { PalletesModule } from './palletes/palletes.module';
 import { Pallete } from './palletes/pallete.entity';
+import { FoodModule } from './food/food.module';
+import { Food } from './food/food.entity';
 
 const TypeOrm = TypeOrmModule.forRoot({
   type: 'postgres',
@@ -12,11 +14,11 @@ const TypeOrm = TypeOrmModule.forRoot({
   username: 'nxr',
   password: 'secret',
   database: 'homelab',
-  entities: [Cat, Pallete],
+  entities: [Cat, Pallete, Food],
   synchronize: true,
 });
 
 @Module({
-  imports: [CatsModule, PalletesModule, TypeOrm],
+  imports: [CatsModule, PalletesModule, FoodModule, TypeOrm],
 })
 export class AppModule {}

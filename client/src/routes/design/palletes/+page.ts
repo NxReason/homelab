@@ -10,7 +10,7 @@ export const load: PageLoad = async ({ fetch }) => {
 
   let palletes: IPallete[] = await res.json();
   palletes.map(p => {
-    p.createdAt = new Date(p.createdAt);
+    p.createdAt = p.createdAt ? new Date(p.createdAt) : new Date();
   });
 
   return {

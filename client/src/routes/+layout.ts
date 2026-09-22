@@ -12,6 +12,7 @@ export const load: LayoutLoad = async ({ url }) => {
       ]),
       new MenuItem('/pomodoro', 'Pomodoro', pathname),
       new MenuItem('/csv-reader', 'CSV Reader', pathname),
+      new MenuItem('/calories', 'Calorie calculator', pathname),
     ],
   };
 };

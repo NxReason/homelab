@@ -159,4 +159,7 @@
   .icon-csv-reader {
     background-image: url('/icons/csv.svg');
   }
+  .icon-calorie-calculator {
+    background-image: url('/icons/food_bank.svg');
+  }
 </style>

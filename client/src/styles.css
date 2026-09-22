@@ -15,6 +15,7 @@
   /* Surfaces */
   --background: #09070f;
   --on-background: #e2def1;
+  --background-transparent: #09070f80;
 
   --surface: #0f0c17;
   --on-surface: #f2efff;
@@ -52,8 +53,6 @@ button {
 
   padding: 4px 8px;
   border: none;
-
-  transition: all 0.15s ease;
 }
 button:hover {
   cursor: pointer;
@@ -62,8 +61,12 @@ button:hover {
 
 .btn {
   border: 2px solid var(--primary);
+  transition: all 0.15s ease;
 }
 .btn-filled {
+  background-color: var(--primary);
+}
+.btn:hover {
   background-color: var(--primary);
 }
 

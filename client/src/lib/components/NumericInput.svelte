@@ -1,22 +1,49 @@
 <script lang="ts">
-let { value = $bindable<number | null>() } = $props();
+  import TextInput from './TextInput.svelte';
 
-let raw = $state(value ?? '');
+  type Props = {
+    value?: number | null;
+    title?: string;
+    sub?: string;
+    oninput?: () => void;
+    selectOnFocus?: boolean;
+  };
+  let {
+    value = $bindable<number | null>(),
+    title = '',
+    sub = '',
+    oninput,
+    selectOnFocus = true,
+  }: Props = $props();
 
-$effect(() => {
-  value = raw === ''
-    ? null
-    : parseInt(raw, 10)
-})
+  let raw = $state(value?.toString() ?? '');
+
+  $effect(() => {
+    raw = value?.toString() ?? '';
+  });
+
+  function defaultOnInput(e: Event) {
+    const inputValue = (e.target as HTMLInputElement).value;
+    raw = inputValue.replace(/\D+/g, '');
+    value = raw === '' ? null : parseInt(raw, 10);
+  }
 </script>
 
-<input
+<TextInput
+  bind:value={raw}
+  {title}
+  {sub}
+  {selectOnFocus}
+  oninput={oninput ?? defaultOnInput}
+/>
+
+<!-- <input
   type="text"
   inputmode="numeric"
   bind:value={raw}
-  oninput={(e) => {
+  oninput={e => {
     const inputValue = (e.target as HTMLInputElement).value;
     raw = inputValue.replace(/\D+/g, '');
   }}
   onfocus={e => (e.target as HTMLInputElement).select()}
-/>
+/> -->

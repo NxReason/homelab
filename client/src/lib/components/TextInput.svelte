@@ -3,7 +3,7 @@
     value?: string | null;
     title?: string;
     sub?: string;
-    oninput?: () => void;
+    oninput?: (e: Event) => void;
     selectOnFocus?: boolean;
   };
 
