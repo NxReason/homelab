@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Food } from './food.entity';
+import { Food } from './entities/food.entity';
 import { Repository } from 'typeorm';
-import { CreateFoodDto, UpdateFoodDto } from './food.dto';
+import { ResponseFoodDto, CreateFoodDto, UpdateFoodDto } from './food.dto';
+import { mapFoodDbToResponse } from './helpers';
 
 @Injectable()
 export class FoodService {
@@ -11,16 +12,26 @@ export class FoodService {
     private foodRepo: Repository<Food>,
   ) {}
 
-  readAll(): Promise<Food[]> {
-    return this.foodRepo.find({
+  async readAll(): Promise<ResponseFoodDto[]> {
+    const foodsDb = await this.foodRepo.find({
+      relations: {
+        micros: {
+          micro: true,
+        },
+      },
       order: {
         name: 'DESC',
       },
     });
+    const foods = foodsDb.map(mapFoodDbToResponse);
+
+    return foods;
   }
 
-  readOne(id: number): Promise<Food | null> {
-    return this.foodRepo.findOneBy({ id });
+  async readOne(id: number): Promise<ResponseFoodDto | null> {
+    const foodDb = await this.foodRepo.findOneBy({ id });
+    if (!foodDb) return null;
+    return mapFoodDbToResponse(foodDb);
   }
 
   create(dto: CreateFoodDto): Promise<Food> {

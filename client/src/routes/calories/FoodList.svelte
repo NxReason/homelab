@@ -2,6 +2,7 @@
   import type { IFood } from './IFood';
   import Modal from '$lib/components/Modal.svelte';
   import FoodForm from './FoodForm.svelte';
+  import FoodListItem from './FoodListItem.svelte';
   import { saveFood, updateFood, deleteFood } from './api';
 
   type Props = {
@@ -20,6 +21,7 @@
     carbs: 0,
     saturatedFat: 0,
     fiber: 0,
+    micros: [],
   };
   let newFoodItem = $state<IFood>(foodItemDefaults);
   async function createNewFood() {
@@ -47,9 +49,9 @@
   }
 
   // delete food
-  async function deleteFoodItem(id: number) {
-    await deleteFood(id);
-    foodList = foodList.filter(fi => fi.id !== id);
+  async function deleteFoodItem(food: IFood) {
+    await deleteFood(food.id!);
+    foodList = foodList.filter(fi => fi.id !== food.id);
   }
 
   // modal data
@@ -70,27 +72,25 @@
 </script>
 
 <ul>
-  {#each foodList as foodItem}
-    <li class="food-item">
-      <span class="food-item-name">{foodItem.name}</span>
-      <span class="food-item-calories">{foodItem.calories}</span>
-
-      <div class="controls">
-        <button aria-label="Edit food item" onclick={() => openModal(foodItem)}>
-          <i class="icon icon-edit"></i>
-        </button>
-        <button
-          aria-label="Remove food item"
-          onclick={() => deleteFoodItem(foodItem.id!)}
-        >
-          <i class="icon icon-delete"></i>
-        </button>
-      </div>
-    </li>
+  <li class="food-list-header">
+    <span class="empty"></span>
+    <span class="calories">Calories</span>
+    <span class="macro">Protein <i class="icon icon-protein"></i></span>
+    <span class="macro">Carbs <i class="icon icon-carbs"></i></span>
+    <span class="macro">Fats <i class="icon icon-fats"></i></span>
+  </li>
+  {#each foodList as food}
+    <FoodListItem
+      {food}
+      onUpdate={f => openModal(f)}
+      onDelete={f => deleteFoodItem(f)}
+    />
   {/each}
 </ul>
 
-<button onclick={() => openModal()}>Create food</button>
+<button onclick={() => openModal()} class="btn btn-create-food"
+  >Create food</button
+>
 
 {#if isModalOpen}
   <Modal
@@ -106,14 +106,39 @@
 {/if}
 
 <style>
-  .food-item {
+  .food-list-header {
     display: grid;
-    grid-template-columns: 200px 48px 1fr;
+    grid-template-columns: 200px repeat(4, 80px) 1fr;
     align-items: center;
-
-    padding: 4px 12px;
+    padding: 0 12px;
   }
-  .food-item:nth-child(odd) {
+  .calories {
     background-color: var(--surface-variant);
+    padding: 4px;
+  }
+  .macro {
+    display: flex;
+    gap: 2px;
+    background-color: var(--primary);
+    padding: 4px;
+    border-right: 2px solid var(--surface);
+  }
+  .macro .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .icon-protein {
+    background-image: url('/icons/egg.svg');
+  }
+  .icon-carbs {
+    background-image: url('/icons/wheat.svg');
+  }
+  .icon-fats {
+    background-image: url('/icons/pizza.svg');
+  }
+
+  .btn-create-food {
+    padding: 8px;
+    margin-top: 16px;
   }
 </style>

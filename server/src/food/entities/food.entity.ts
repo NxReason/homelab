@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { MicroToFood } from './microToFood.entity';
 
 @Entity()
 export class Food {
@@ -25,4 +26,7 @@ export class Food {
 
   @Column({ default: 0 })
   fiber!: number;
+
+  @OneToMany(() => MicroToFood, (microToFood) => microToFood.food)
+  micros!: MicroToFood[];
 }

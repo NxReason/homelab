@@ -9,21 +9,22 @@ import {
   Param,
 } from '@nestjs/common';
 import { FoodService } from './food.service';
-import { Food } from './food.entity';
-import { CreateFoodDto, UpdateFoodDto } from './food.dto';
+import { Food } from './entities/food.entity';
+import { CreateFoodDto, ResponseFoodDto, UpdateFoodDto } from './food.dto';
 
 @Controller('api/food')
 export class FoodController {
   constructor(private foodService: FoodService) {}
 
   @Get()
-  readAll(): Promise<Food[]> {
-    console.log('reached');
-    return this.foodService.readAll();
+  async readAll(): Promise<ResponseFoodDto[]> {
+    const foods = await this.foodService.readAll();
+    foods.forEach((f) => console.log(f.micros));
+    return foods;
   }
 
   @Get(':id')
-  async readOne(@Param('id') id: number): Promise<Food> {
+  async readOne(@Param('id') id: number): Promise<ResponseFoodDto> {
     const food = await this.foodService.readOne(id);
 
     if (!food) {
