@@ -1,8 +1,7 @@
 <script lang="ts">
   import type { IFood } from './IFood';
   import Modal from '$lib/components/Modal.svelte';
-  import TextInput from '$lib/components/TextInput.svelte';
-  import NumericInput from '$lib/components/NumericInput.svelte';
+  import FoodForm from './FoodForm.svelte';
   import { saveFood, updateFood, deleteFood } from './api';
 
   type Props = {
@@ -13,7 +12,15 @@
   let foodList = $state(food);
 
   // creating new food item data / handlers
-  const foodItemDefaults: IFood = { name: '', calorieCount: 0 };
+  const foodItemDefaults: IFood = {
+    name: '',
+    calories: 0,
+    protein: 0,
+    fat: 0,
+    carbs: 0,
+    saturatedFat: 0,
+    fiber: 0,
+  };
   let newFoodItem = $state<IFood>(foodItemDefaults);
   async function createNewFood() {
     const res = await saveFood(editedFood);
@@ -36,7 +43,7 @@
 
   function resetUpdatedFood(preUpdateCopy: IFood) {
     editedFood.name = preUpdateCopy.name;
-    editedFood.calorieCount = preUpdateCopy.calorieCount;
+    editedFood.calories = preUpdateCopy.calories;
   }
 
   // delete food
@@ -66,7 +73,7 @@
   {#each foodList as foodItem}
     <li class="food-item">
       <span class="food-item-name">{foodItem.name}</span>
-      <span class="food-item-calories">{foodItem.calorieCount}</span>
+      <span class="food-item-calories">{foodItem.calories}</span>
 
       <div class="controls">
         <button aria-label="Edit food item" onclick={() => openModal(foodItem)}>
@@ -93,13 +100,7 @@
     onClose={() => (isModalOpen = false)}
   >
     {#snippet content()}
-      <form class="new-food-form">
-        <TextInput bind:value={editedFood.name} title="Name" />
-        <NumericInput
-          bind:value={editedFood.calorieCount}
-          title="Calories / 100g"
-        />
-      </form>
+      <FoodForm bind:food={editedFood} />
     {/snippet}
   </Modal>
 {/if}
@@ -114,10 +115,5 @@
   }
   .food-item:nth-child(odd) {
     background-color: var(--surface-variant);
-  }
-
-  /* Create/Edit food item */
-  .new-food-form {
-    width: 400px;
   }
 </style>

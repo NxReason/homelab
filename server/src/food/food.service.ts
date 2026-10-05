@@ -28,14 +28,11 @@ export class FoodService {
   }
 
   async update(dto: UpdateFoodDto): Promise<Food | null> {
-    const updFood = await this.foodRepo.findOneBy({ id: dto.id });
-
-    if (!updFood) return null;
-
-    updFood.name = dto.name;
-    updFood.calorieCount = dto.calorieCount;
-
-    return this.foodRepo.save(updFood);
+    const food = await this.foodRepo.preload(dto);
+    if (!food) {
+      return null;
+    }
+    return this.foodRepo.save(food);
   }
 
   async delete(id: number): Promise<Food | null> {

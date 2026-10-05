@@ -1,5 +1,11 @@
 export interface IFood {
   id?: number;
   name: string;
-  calorieCount: number;
+  calories: number;
+
+  protein: number;
+  carbs: number;
+  fat: number;
+  saturatedFat: number;
+  fiber: number;
 }
