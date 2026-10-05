@@ -1,17 +1,12 @@
 <script lang="ts">
   type Props = {
     label?: string;
-    options?: { value: string; text: string }[];
-    selected?: string;
+    options?: { value: string | number; text: string }[];
+    selected?: string | number;
     onchange?: () => void;
   };
 
-  let {
-    label,
-    options = [],
-    selected = $bindable(),
-    onchange,
-  }: Props = $props();
+  let { options = [], selected = $bindable(), onchange }: Props = $props();
 
   function handleChange(e: Event) {
     const input = e.currentTarget as HTMLInputElement;
@@ -20,32 +15,19 @@
   }
 </script>
 
-<label class="container">
-  {#if label}
-    <p class="label-text">{label}</p>
-  {/if}
+<select onchange={handleChange}>
+  <button>
+    <selectedcontent></selectedcontent>
+  </button>
 
-  <select onchange={handleChange}>
-    <button>
-      <selectedcontent></selectedcontent>
-    </button>
-
-    {#each options as o}
-      <option value={o.value} selected={o.value === selected}>
-        <span class="option-text">{o.text}</span>
-      </option>
-    {/each}
-  </select>
-</label>
+  {#each options as o}
+    <option value={o.value} selected={o.value === selected}>
+      <span class="option-text">{o.text}</span>
+    </option>
+  {/each}
+</select>
 
 <style>
-  .container {
-    display: inline-grid;
-    grid-template-columns: auto 1fr;
-    gap: 16px;
-    align-items: center;
-  }
-
   select,
   ::picker(select) {
     appearance: base-select;
@@ -59,6 +41,7 @@
 
     background: transparent;
     border: 2px solid var(--primary);
+    border-radius: 0;
 
     transition: 0.2s;
     cursor: pointer;
@@ -70,12 +53,18 @@
     outline: none;
   }
 
+  selectedcontent {
+    display: flex;
+    align-items: center;
+  }
+
   ::picker(select) {
     background: transparent;
     border: none;
   }
 
   select::picker-icon {
+    align-self: center;
     color: var(--primary);
     transition: 0.2s rotate;
   }
@@ -99,12 +88,6 @@
   }
   option:not(:last-of-type) {
     border-bottom: 1px solid var(--on-background);
-  }
-  option:first-of-type {
-    border-radius: 8px 8px 0 0;
-  }
-  option:last-of-type {
-    border-radius: 0 0 8px 8px;
   }
   option:checked {
     font-weight: bold;

@@ -4,7 +4,7 @@
   import CalorieCalc from './CalorieCalc.svelte';
 
   const { data }: PageProps = $props();
-  let tabSelected = $state<'food' | 'calc'>('food');
+  let tabSelected = $state<'food' | 'calc'>('calc');
 </script>
 
 <h1>Calorie calculator</h1>
@@ -23,12 +23,11 @@
 </section>
 
 <!-- TODO:
-food CRUD
 create meal
 create day / week / month -->
 
 {#if tabSelected === 'calc'}
-  <CalorieCalc />
+  <CalorieCalc meals={data.meals} food={data.food} />
 {:else if tabSelected === 'food'}
   <FoodList food={data.food} />
 {/if}

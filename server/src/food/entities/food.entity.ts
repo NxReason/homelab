@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { MicroToFood } from './microToFood.entity';
+import { MealToFood } from './mealToFood.entity';
 
 @Entity()
 export class Food {
@@ -32,4 +33,7 @@ export class Food {
     orphanedRowAction: 'delete',
   })
   micros!: MicroToFood[];
+
+  @OneToMany(() => MealToFood, (mealToFood) => mealToFood.food)
+  inMeals!: MealToFood[];
 }
