@@ -27,6 +27,9 @@ export class Food {
   @Column({ default: 0 })
   fiber!: number;
 
-  @OneToMany(() => MicroToFood, (microToFood) => microToFood.food)
+  @OneToMany(() => MicroToFood, (microToFood) => microToFood.food, {
+    cascade: true,
+    orphanedRowAction: 'delete',
+  })
   micros!: MicroToFood[];
 }

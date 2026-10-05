@@ -19,35 +19,30 @@ export class FoodController {
   @Get()
   async readAll(): Promise<ResponseFoodDto[]> {
     const foods = await this.foodService.readAll();
-    foods.forEach((f) => console.log(f.micros));
     return foods;
   }
 
   @Get(':id')
   async readOne(@Param('id') id: number): Promise<ResponseFoodDto> {
     const food = await this.foodService.readOne(id);
-
     if (!food) {
       throw new NotFoundException('Food not found');
     }
-
     return food;
   }
 
   @Post()
-  async create(@Body() dto: CreateFoodDto): Promise<Food> {
+  async create(@Body() dto: CreateFoodDto): Promise<ResponseFoodDto> {
     return this.foodService.create(dto);
   }
 
   @Put(':id')
-  async update(@Body() dto: UpdateFoodDto): Promise<Food> {
-    const updFood = await this.foodService.update(dto);
-
-    if (!updFood) {
+  async update(@Body() dto: UpdateFoodDto): Promise<ResponseFoodDto> {
+    const food = await this.foodService.update(dto);
+    if (!food) {
       throw new NotFoundException('Food not found');
     }
-
-    return updFood;
+    return food;
   }
 
   @Delete(':id')

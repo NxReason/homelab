@@ -25,9 +25,14 @@
   };
   let newFoodItem = $state<IFood>(foodItemDefaults);
   async function createNewFood() {
-    const res = await saveFood(editedFood);
-    foodList.push({ ...(res as IFood) });
-    resetFood();
+    try {
+      const res = await saveFood(editedFood);
+      foodList.push({ ...(res as IFood) });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      resetFood();
+    }
   }
   function resetNewFood() {
     editedFood = foodItemDefaults;

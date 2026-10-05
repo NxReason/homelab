@@ -8,6 +8,16 @@
   };
   const { food, onUpdate, onDelete }: Props = $props();
 
+  function handleUpdate(e: Event) {
+    e.stopPropagation();
+    onUpdate(food);
+  }
+
+  function handleDelete(e: Event) {
+    e.stopPropagation();
+    onDelete(food);
+  }
+
   let isOpen = $state(false);
 </script>
 
@@ -23,10 +33,10 @@
   <span>{food.micros.length} micros</span>
 
   <div class="controls">
-    <button aria-label="Edit food item" onclick={() => onUpdate(food)}>
+    <button aria-label="Edit food item" onclick={handleUpdate}>
       <i class="icon icon-edit"></i>
     </button>
-    <button aria-label="Remove food item" onclick={() => onDelete(food)}>
+    <button aria-label="Remove food item" onclick={handleDelete}>
       <i class="icon icon-delete"></i>
     </button>
   </div>

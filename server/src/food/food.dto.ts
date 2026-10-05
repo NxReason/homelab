@@ -1,3 +1,9 @@
+export class MicroDto {
+  id?: number;
+  name!: string;
+  amount!: number;
+}
+
 export class CreateFoodDto {
   name!: string;
   calories!: number;
@@ -7,6 +13,8 @@ export class CreateFoodDto {
   fat: number = 0;
   saturatedFat: number = 0;
   fiber: number = 0;
+
+  micros: MicroDto[] = [];
 }
 
 export class UpdateFoodDto {
@@ -19,6 +27,8 @@ export class UpdateFoodDto {
   fat: number = 0;
   saturatedFat: number = 0;
   fiber: number = 0;
+
+  micros!: MicroDto[];
 }
 
 class ResponseMicroDto {
