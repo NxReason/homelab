@@ -11,6 +11,7 @@ import {
 import { mapFoodDbToResponse } from './helpers';
 import { Micronutrient } from './entities/micronutrient.entity';
 import { MicroToFood } from './entities/microToFood.entity';
+import { MealToFood } from './entities/mealToFood.entity';
 
 @Injectable()
 export class FoodService {
@@ -20,7 +21,9 @@ export class FoodService {
     @InjectRepository(Micronutrient)
     private microRepo: Repository<Micronutrient>,
     @InjectRepository(MicroToFood)
-    private mtfRepo: Repository<MicroToFood>,
+    private microToFood: Repository<MicroToFood>,
+    @InjectRepository(MealToFood)
+    private mealToFoodRepo: Repository<MealToFood>,
   ) {}
 
   async readAll(): Promise<ResponseFoodDto[]> {
@@ -95,7 +98,12 @@ export class FoodService {
     const food = await this.foodRepo.findOneBy({ id });
 
     if (!food) return null;
-    await this.mtfRepo.delete({
+
+    await this.microToFood.delete({
+      foodId: food.id,
+    });
+
+    await this.mealToFoodRepo.delete({
       foodId: food.id,
     });
 

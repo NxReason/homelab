@@ -22,7 +22,10 @@ export class NutrientValues {
     this.saturatedFat = food.saturatedFat * mult;
     this.fiber = food.fiber * mult;
 
-    this.micros = food.micros.map(m => ({ name: m.name, amount: m.amount }));
+    this.micros = food.micros.map(m => ({
+      name: m.name,
+      amount: m.amount * mult,
+    }));
   }
 
   add(other: NutrientValues) {
@@ -32,7 +35,7 @@ export class NutrientValues {
     this.carbs += other.carbs;
     this.fat += other.fat;
     this.saturatedFat += other.saturatedFat;
-    this.fiber = other.fiber;
+    this.fiber += other.fiber;
 
     this.addMicros(other);
   }

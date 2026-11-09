@@ -24,8 +24,8 @@
 
   function defaultOnInput(e: Event) {
     const inputValue = (e.target as HTMLInputElement).value;
-    raw = inputValue.replace(/\D+/g, '');
-    value = raw === '' ? null : parseInt(raw, 10);
+    raw = inputValue.replace(/[^.0-9]/g, '');
+    value = raw === '' ? null : parseFloat(raw);
   }
 </script>
 

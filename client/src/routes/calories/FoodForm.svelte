@@ -8,7 +8,7 @@
   let { food = $bindable<IFood>() }: Props = $props();
 
   type Mode = 'macro' | 'micro';
-  let mode = $state<Mode>('micro');
+  let mode = $state<Mode>('macro');
 
   function addMicro() {
     food.micros.push({ name: '', amount: 0 });

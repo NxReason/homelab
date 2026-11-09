@@ -13,7 +13,7 @@ export class MicroToFood {
   @Column()
   microId!: number;
 
-  @Column({ default: 0 })
+  @Column('real', { default: 0 })
   amount!: number;
 
   @ManyToOne(() => Food, (food) => food.micros)

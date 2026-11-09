@@ -13,19 +13,19 @@ export class Food {
   @Column()
   calories!: number;
 
-  @Column({ default: 0 })
+  @Column('real', { default: 0 })
   protein!: number;
 
-  @Column({ default: 0 })
+  @Column('real', { default: 0 })
   carbs!: number;
 
-  @Column({ default: 0 })
+  @Column('real', { default: 0 })
   fat!: number;
 
-  @Column({ default: 0 })
+  @Column('real', { default: 0 })
   saturatedFat!: number;
 
-  @Column({ default: 0 })
+  @Column('real', { default: 0 })
   fiber!: number;
 
   @OneToMany(() => MicroToFood, (microToFood) => microToFood.food, {
