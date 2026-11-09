@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageProps } from './$types';
   import FoodList from './FoodList.svelte';
-  import CalorieCalc from './CalorieCalc.svelte';
+  import MealList from './MealList.svelte';
 
   const { data }: PageProps = $props();
   let tabSelected = $state<'food' | 'calc'>('calc');
@@ -22,12 +22,8 @@
   >
 </section>
 
-<!-- TODO:
-create meal
-create day / week / month -->
-
 {#if tabSelected === 'calc'}
-  <CalorieCalc meals={data.meals} food={data.food} />
+  <MealList meals={data.meals} food={data.food} />
 {:else if tabSelected === 'food'}
   <FoodList food={data.food} />
 {/if}

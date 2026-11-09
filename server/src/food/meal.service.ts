@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Meal } from './entities/meal.entity';
 import { Repository } from 'typeorm';
-import { CreateMealDto } from './meal.dto';
+import { CreateMealDto, UpdateMealDto } from './meal.dto';
 import { MealToFood } from './entities/mealToFood.entity';
 
 @Injectable()
@@ -14,12 +14,14 @@ export class MealService {
     private mtfRepo: Repository<MealToFood>,
   ) {}
 
-  readAll() {
-    return this.mealRepo.find({
+  async readAll(): Promise<Meal[]> {
+    const meals = await this.mealRepo.find({
       relations: {
         ingredients: true,
       },
     });
+
+    return meals;
   }
 
   async readOne(id: number): Promise<Meal | null> {
@@ -38,8 +40,31 @@ export class MealService {
         meal,
       });
     });
-
     await this.mtfRepo.save(ingredients);
+
+    const refreshedMeal = await this.mealRepo.findOne({
+      where: { id: meal.id },
+      relations: { ingredients: true },
+    });
+
+    return refreshedMeal!;
+  }
+
+  async update(dto: UpdateMealDto): Promise<Meal | null> {
+    const meal = await this.mealRepo.preload(dto);
+    if (!meal) {
+      return null;
+    }
+    await this.mealRepo.save(meal);
     return meal;
+  }
+
+  async delete(id: number): Promise<Meal | null> {
+    const meal = await this.mealRepo.findOneBy({ id });
+    if (!meal) return null;
+
+    await this.mtfRepo.delete({ mealId: id });
+
+    return this.mealRepo.remove(meal);
   }
 }

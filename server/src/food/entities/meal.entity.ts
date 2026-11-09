@@ -10,7 +10,7 @@ export class Meal {
   name!: string;
 
   @OneToMany(() => MealToFood, (mealToFood) => mealToFood.meal, {
-    cascade: true,
+    cascade: ['insert', 'update', 'remove'],
     orphanedRowAction: 'delete',
   })
   ingredients!: MealToFood[];

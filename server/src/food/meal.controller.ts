@@ -5,10 +5,12 @@ import {
   Post,
   NotFoundException,
   Param,
+  Put,
+  Delete,
 } from '@nestjs/common';
 import { MealService } from './meal.service';
 import { Meal } from './entities/meal.entity';
-import { CreateMealDto } from './meal.dto';
+import { CreateMealDto, UpdateMealDto } from './meal.dto';
 
 @Controller('api/meals')
 export class MealController {
@@ -31,5 +33,23 @@ export class MealController {
   @Post()
   async create(@Body() dto: CreateMealDto): Promise<Meal> {
     return this.mealService.create(dto);
+  }
+
+  @Put('/:id')
+  async update(@Body() dto: UpdateMealDto): Promise<Meal> {
+    const meal = await this.mealService.update(dto);
+    if (!meal) {
+      throw new NotFoundException(`Can't find meal with id ${dto.id}`);
+    }
+    return meal;
+  }
+
+  @Delete('/:id')
+  async delete(@Param('id') id: number): Promise<Meal> {
+    const meal = await this.mealService.delete(id);
+    if (!meal) {
+      throw new NotFoundException(`Can't find meal with id ${id}`);
+    }
+    return meal;
   }
 }
